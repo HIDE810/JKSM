@@ -1,3 +1,6 @@
+## JKSM(日本語版)
+* 誤訳や不具合の報告は[issue](https://github.com/HIDE810/JKSM/issues)まで。
+
 # JKSM for 3DS
 JKSM or JK's Save Manager for 3DS.
 * Dump and Restore save data for 3DS titles
