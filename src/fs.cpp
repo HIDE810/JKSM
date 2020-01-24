@@ -132,7 +132,7 @@ namespace fs
         {
             if(error)
             {
-                ui::showMessage("The archive cannot be opened!");
+                ui::showMessage("アーカイブが開けませんでした。");
             }
             return false;
         }

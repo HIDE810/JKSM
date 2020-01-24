@@ -38,11 +38,11 @@ namespace ui
     void prepMenus()
     {
         //Main
-        mainMenu.addOpt("Titles", 0);
-        mainMenu.addOpt("System Titles", 0);
-        mainMenu.addOpt("Reload Titles", 0);
-        mainMenu.addOpt("Play Coins", 0);
-        mainMenu.addOpt("Exit", 0);
+        mainMenu.addOpt("タイトル", 0);
+        mainMenu.addOpt("システムタイトル", 0);
+        mainMenu.addOpt("タイトルを再ロード", 0);
+        mainMenu.addOpt("ゲームコイン", 0);
+        mainMenu.addOpt("終了", 0);
 
         //Title menu
         if(!data::haxMode)
@@ -51,23 +51,23 @@ namespace ui
             loadNandMenu();
         }
 
-        backupMenu.addOpt("Save Data", 0);
-        backupMenu.addOpt("Delete Save Data", 0);
-        backupMenu.addOpt("Extra Data", 0);
-        backupMenu.addOpt("Delete Extra Data", 0);
-        backupMenu.addOpt("Back", 0);
+        backupMenu.addOpt("セーブデータ", 0);
+        backupMenu.addOpt("セーブデータを削除", 0);
+        backupMenu.addOpt("追加データ", 0);
+        backupMenu.addOpt("追加データを削除", 0);
+        backupMenu.addOpt("戻る", 0);
 
-        haxMenu.addOpt("Save Data", 0);
-        haxMenu.addOpt("Delete Save Data", 0);
-        haxMenu.addOpt("Extra Data", 0);
-        haxMenu.addOpt("Delete Extra Data", 0);
-        haxMenu.addOpt("Set Play Coins", 0);
-        haxMenu.addOpt("Exit", 0);
+        haxMenu.addOpt("セーブデータ", 0);
+        haxMenu.addOpt("セーブデータを削除", 0);
+        haxMenu.addOpt("追加データ", 0);
+        haxMenu.addOpt("追加データを削除", 0);
+        haxMenu.addOpt("ゲームコイン設定", 0);
+        haxMenu.addOpt("終了", 0);
 
-        nandBackupMenu.addOpt("System Save", 0);
-        nandBackupMenu.addOpt("Extra Data", 0);
-        nandBackupMenu.addOpt("BOSS Extra Data", 0);
-        nandBackupMenu.addOpt("Back", 0);
+        nandBackupMenu.addOpt("システムセーブ", 0);
+        nandBackupMenu.addOpt("追加データ", 0);
+        nandBackupMenu.addOpt("BOSS追加データ", 0);
+        nandBackupMenu.addOpt("戻る", 0);
     }
 
     void drawTopBar(const std::string& info)
@@ -91,7 +91,7 @@ namespace ui
                     if(!data::titles.empty())
                         state = TITLE_MENU;
                     else
-                        ui::showMessage("No titles found. Try reloading titles!");
+                        ui::showMessage("タイトルが見つかりませんでした。再ロードしてください。");
                     break;
 
                 case 1:
@@ -120,7 +120,7 @@ namespace ui
 
         gfx::frameBegin();
         gfx::frameStartTop();
-        drawTopBar("JKSM - 03.03.2019");
+        drawTopBar("JKSM_JPN - 03.03.2019");
         mainMenu.draw(40, 82, 0xFFFFFFFF, 320, false);
         gfx::frameStartBot();
         gfx::frameEnd();
@@ -138,13 +138,13 @@ namespace ui
         }
 
         //Much needed Jump button
-        static ui::button jumpTo("Jump To", 0, 208, 320, 32);
+        static ui::button jumpTo("移動先", 0, 208, 320, 32);
         //Dump all button
-        static ui::button dumpAll("Dump All", 0, 174, 320, 32);
+        static ui::button dumpAll("全てダンプ", 0, 174, 320, 32);
         //Blacklist button
-        static ui::button bl("Add to Blacklist (X)", 0, 140, 320, 32);
+        static ui::button bl("ブラックリストに追加 (X)", 0, 140, 320, 32);
         //Selected Dump
-        static ui:: button ds("Dump Selected (Y)", 0, 106, 320, 32);
+        static ui:: button ds("ダンプを選択 (Y)", 0, 106, 320, 32);
 
         titleMenu.handleInput(down, held);
 
@@ -169,7 +169,7 @@ namespace ui
         }
         else if(down & KEY_X || bl.getEvent() == BUTTON_RELEASED)
         {
-            std::string confString = "Are you sure you want to add '" + util::toUtf8(data::titles[titleMenu.getSelected()].getTitle()) + "' to the blacklist?";
+            std::string confString = "このタイトルをブラックリストに追加しますか？";
             if(confirm(confString))
                 data::blacklistAdd(data::titles[titleMenu.getSelected()]);
         }
@@ -202,7 +202,7 @@ namespace ui
         }
         else if(jumpTo.getEvent() == BUTTON_RELEASED)
         {
-            char16_t getChar = util::toUtf16(util::getString("Enter a letter to jump to", false))[0];
+            char16_t getChar = util::toUtf16(util::getString("移動先の文字列を入力", false))[0];
             if(getChar != 0x00)
             {
                 unsigned i;
@@ -228,7 +228,7 @@ namespace ui
 
         gfx::frameBegin();
         gfx::frameStartTop();
-        drawTopBar("Select a Title");
+        drawTopBar("タイトルを選択");
         titleMenu.draw(40, 24, 0xFFFFFFFF, 320, false);
         gfx::frameStartBot();
         data::titles[titleMenu.getSelected()].drawInfo(8, 8);
@@ -273,7 +273,7 @@ namespace ui
                     break;
 
                 case 1:
-                    if(confirm(std::string("Are you 100% sure you want to delete the current save data for this game? This is permanent!")) && fs::openArchive(data::curData, ARCHIVE_USER_SAVEDATA, true))
+                    if(confirm(std::string("本当に削除しますか？\n削除したデータは二度と戻りません。")) && fs::openArchive(data::curData, ARCHIVE_USER_SAVEDATA, true))
                     {
                         FSUSER_DeleteDirectoryRecursively(fs::getSaveArch(), fsMakePath(PATH_ASCII, "/"));
                         fs::commitData(ARCHIVE_USER_SAVEDATA);
@@ -293,14 +293,14 @@ namespace ui
 
                 case 3:
                     {
-                        std::string confStr = "Are you 100% sure you want to delete the currently saved Extra Data for '" + util::toUtf8(data::curData.getTitle()) + "'?";
+                        std::string confStr = "本当に削除しますか？";
                         if(confirm(confStr))
                         {
                             FS_ExtSaveDataInfo del = { MEDIATYPE_SD, 0, 0, data::curData.getExtData(), 0 };
 
                             Result res = FSUSER_DeleteExtSaveData(del);
                             if(R_SUCCEEDED(res))
-                                showMessage("Extdata deleted!");
+                                showMessage("データが削除されました。");
                         }
                     }
                     break;
@@ -342,7 +342,7 @@ namespace ui
 
         gfx::frameBegin();
         gfx::frameStartTop();
-        drawTopBar("Select a NAND Title");
+        drawTopBar("NANDタイトルを選択");
         nandMenu.draw(40, 24, 0xFFFFFFFF, 320, false);
         gfx::frameStartBot();
         data::nand[nandMenu.getSelected()].drawInfo(8, 8);
@@ -424,7 +424,7 @@ namespace ui
                 else if(held & KEY_R)
                     newFolder = util::toUtf16(util::getDateString(util::DATE_FMT_YMD));
                 else
-                    newFolder = util::safeString(util::toUtf16(util::getString("Enter a new folder name", true)));
+                    newFolder = util::safeString(util::toUtf16(util::getString("新規フォルダ名を入力", true)));
 
                 if(!newFolder.empty())
                 {
@@ -442,7 +442,7 @@ namespace ui
                 sel--;
 
                 fs::dirList titleDir(fs::getSDMCArch(), util::createPath(data::curData, fs::getSaveMode()));
-                std::string confStr = "Are you sure you want to overwrite '" + util::toUtf8(titleDir.getItem(sel)) + "'?";
+                std::string confStr = "'" + util::toUtf8(titleDir.getItem(sel)) + "'に上書きしますか？";
                 if(ui::confirm(confStr))
                 {
                     std::u16string fullPath = util::createPath(data::curData, fs::getSaveMode()) + titleDir.getItem(sel);
@@ -462,7 +462,7 @@ namespace ui
         {
             sel--;
             fs::dirList titleDir(fs::getSDMCArch(), util::createPath(data::curData, fs::getSaveMode()));
-            std::string confStr = "Are you sure you want to restore '" + util::toUtf8(titleDir.getItem(sel)) + "'?";
+            std::string confStr = "'" + util::toUtf8(titleDir.getItem(sel)) + "'をリストアしますか？";
             if(confirm(confStr))
             {
                 std::u16string restPath = util::createPath(data::curData, fs::getSaveMode()) + titleDir.getItem(sel) + util::toUtf16("/");
@@ -478,7 +478,7 @@ namespace ui
         {
             sel--;
             fs::dirList titleDir(fs::getSDMCArch(), util::createPath(data::curData, fs::getSaveMode()));
-            std::string confStr = "Are you sure you want to delete '" + util::toUtf8(titleDir.getItem(sel)) + "'?";
+            std::string confStr = "'" + util::toUtf8(titleDir.getItem(sel)) + "'を削除しますか？";
             if(confirm(confStr))
             {
                 std::u16string delPath = util::createPath(data::curData, fs::getSaveMode()) + titleDir.getItem(sel);
@@ -502,10 +502,10 @@ namespace ui
 
         gfx::frameBegin();
         gfx::frameStartTop();
-        drawTopBar("Select a Folder");
+        drawTopBar("フォルダを選択");
         folderMenu.draw(40, 24, 0xFFFFFFFF, 320, false);
         gfx::frameStartBot();
-        gfx::drawText("A = Select\nY = Restore\nX = Delete\nSel. = Adv. Mode\nB = Back", 16, 16, 0xFFFFFFFF);
+        gfx::drawText("A = 選択\nY = リストア\nX = 削除\nSel. = アドバンスモード\nB = 戻る", 16, 16, 0xFFFFFFFF);
         gfx::frameEnd();
     }
 
@@ -528,7 +528,7 @@ namespace ui
                     break;
 
                 case 1:
-                    if(confirm("Are you 100% sure you want to erase the current save data for this game? This is permanent!") && fs::openArchive(data::curData, ARCHIVE_SAVEDATA, true))
+                    if(confirm("このゲームのセーブデータを本当に削除しますか？\n削除したデータは二度と戻りません。") && fs::openArchive(data::curData, ARCHIVE_SAVEDATA, true))
                     {
                         FSUSER_DeleteDirectoryRecursively(fs::getSaveArch(), fsMakePath(PATH_ASCII, "/"));
                         fs::commitData(ARCHIVE_SAVEDATA);
@@ -548,14 +548,14 @@ namespace ui
 
                 case 3:
                     {
-                        std::string confStr = "Are you 100% sure you want to delete the currently saved Extra Data for '" + util::toUtf8(data::curData.getTitle()) + "'?";
+                        std::string confStr = "'" + util::toUtf8(data::curData.getTitle()) + "'\nの抽出データを本当に削除しますか？";
                         if(confirm(confStr))
                         {
                             FS_ExtSaveDataInfo del = { MEDIATYPE_SD, 0, 0, data::curData.getExtData(), 0 };
 
                             Result res = FSUSER_DeleteExtSaveData(del);
                             if(R_SUCCEEDED(res))
-                                showMessage("Extdata deleted!");
+                                showMessage("データが削除されました。");
                         }
                     }
                     break;
@@ -572,7 +572,7 @@ namespace ui
 
         gfx::frameBegin();
         gfx::frameStartTop();
-        drawTopBar("JKSM - *hax Mode - " + util::toUtf8(data::curData.getTitle()));
+        drawTopBar("JKSM - *hax モード - " + util::toUtf8(data::curData.getTitle()));
         haxMenu.draw(40, 82, 0xFFFFFFFF, 320, false);
         gfx::frameStartBot();
         data::curData.drawInfo(8, 8);
@@ -665,8 +665,8 @@ namespace ui
 
     bool confirm(const std::string& mess)
     {
-        button yes("Yes (A)", 16, 192, 128, 32);
-        button no("No (B)", 176, 192, 128, 32);
+        button yes("はい (A)", 16, 192, 128, 32);
+        button no("いいえ (B)", 176, 192, 128, 32);
 
         while(true)
         {

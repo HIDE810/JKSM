@@ -160,7 +160,7 @@ namespace data
         switch(getMedia())
         {
             case MEDIATYPE_GAME_CARD:
-                media = "Game Card";
+                media = "ゲームカート";
                 break;
 
             case MEDIATYPE_SD:
@@ -274,9 +274,9 @@ namespace data
 
                 gfx::frameBegin();
                 gfx::frameStartTop();
-                ui::drawTopBar("Loading...");
+                ui::drawTopBar("ロード中...");
                 gfx::frameStartBot();
-                prog.draw("Loading installed SD Titles...");
+                prog.draw("インストール済SDタイトルをロード中...");
                 gfx::frameEnd();
             }
             delete[] ids;
@@ -311,9 +311,9 @@ namespace data
 
                 gfx::frameBegin();
                 gfx::frameStartTop();
-                ui::drawTopBar("Loading...");
+                ui::drawTopBar("ロード中...");
                 gfx::frameStartBot();
-                prog.draw("Loading NAND Titles...");
+                prog.draw("NANDタイトルをロード中...");
                 gfx::frameEnd();
 
             }

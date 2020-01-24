@@ -39,7 +39,7 @@ bool confirmTransfer(const std::u16string& from, const std::u16string& to, int w
             break;
     }
 
-    std::string conf = "Are you sure you want to copy '" + fromDrive + util::toUtf8(from) + "' to '" + toDrive + util::toUtf8(to) + "'?";
+    std::string conf = "'" + fromDrive + util::toUtf8(from) + "' を '" + toDrive + util::toUtf8(to) + "'にコピーしますか？";
 
     return ui::confirm(conf);
 }
@@ -58,7 +58,7 @@ bool confirmDelete(const std::u16string& del, int way)
             break;
     }
 
-    std::string conf = "Are you sure you want to delete '" + drive + util::toUtf8(del) + "'?";
+    std::string conf = "'" + drive + util::toUtf8(del) + "'を削除しますか？";
     return ui::confirm(conf);
 }
 
@@ -311,12 +311,12 @@ namespace ui
         util::copyDirlistToMenu(sdList, sdMenu);
 
         copyMenu.reset();
-        copyMenu.addOpt("Copy From", 0);
-        copyMenu.addOpt("Delete", 0);
-        copyMenu.addOpt("Rename", 0);
-        copyMenu.addOpt("Make Dir", 0);
-        copyMenu.addOpt("Delete SV", 0);
-        copyMenu.addOpt("Back", 0);
+        copyMenu.addOpt("コピー", 0);
+        copyMenu.addOpt("削除", 0);
+        copyMenu.addOpt("名前変更", 0);
+        copyMenu.addOpt("フォルダを作成", 0);
+        copyMenu.addOpt("セーブデータを削除", 0);
+        copyMenu.addOpt("戻る", 0);
     }
 
     void stateAdvMode(const uint64_t& down, const uint64_t& held)
@@ -439,12 +439,12 @@ namespace ui
 
         gfx::frameBegin();
         gfx::frameStartTop();
-        ui::drawTopBar("Adv. Mode");
+        ui::drawTopBar("アドバンスモード");
         gfx::drawU16Text(util::toUtf16("sv:") + savePath, 0, 20, 0xFFFFFFFF);
         saveMenu.draw(40, 32, 0xFFFFFFFF, 320, false);
         if(advMenuCtrl == 2 && advPrev == 0)
         {
-            copyMenu.editOpt(0, "Copy to SD");
+            copyMenu.editOpt(0, "SDにコピー");
             C2D_DrawRectSolid(144, 62, 0.5f, 112, 120, 0xFFEBEBEB);
             copyMenu.draw(152, 70, 0xFF000000, 96, true);
         }
@@ -453,7 +453,7 @@ namespace ui
         sdMenu.draw(0, 24, 0xFFFFFFFF, 320, false);
         if(advMenuCtrl == 2 && advPrev == 1)
         {
-            copyMenu.editOpt(0, "Copy to Save");
+            copyMenu.editOpt(0, "セーブデータにコピー");
             C2D_DrawRectSolid(100, 62, 0.5f, 112, 120, 0xFFEBEBEB);
             copyMenu.draw(108, 70, 0xFF000000, 96, true);
         }
