@@ -31,7 +31,7 @@ include $(DEVKITARM)/3ds_rules
 #     - icon.png
 #     - <libctru folder>/default_icon.png
 #---------------------------------------------------------------------------------
-TARGET		:=	JKSM
+TARGET		:=	JKSM_JPN
 BUILD		:=	build
 SOURCES		:=	src src/ui
 #DATA		:=	data
@@ -40,8 +40,8 @@ INCLUDES	:=	inc inc/ui
 #GFXBUILD	:=	$(BUILD)
 #GFXBUILD	:=	$(ROMFS)/gfx
 #ROMFS		:=  romfs
-APP_TITLE   := JKSM
-APP_AUTHOR  := JK
+APP_TITLE   := JKSM_JPN
+APP_AUTHOR  := HIDE810
 APP_DESCRIPTION := 3DS Save Manager
 
 #---------------------------------------------------------------------------------
